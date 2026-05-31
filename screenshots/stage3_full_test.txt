@@ -1,0 +1,253 @@
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 6.1.0-49-armmp (debian-kernel@lists.debian.org) (gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Debian 6.1.174-1 (2026-05-26)
+[    0.000000] CPU: ARMv7 Processor [410fc090] revision 0 (ARMv7), cr=10c5387d
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
+[    0.000000] OF: fdt: Machine model: V2P-CA9
+[    0.000000] Memory policy: Data cache writeback
+[    0.000000] efi: UEFI not found.
+[    0.000000] Reserved memory: created DMA memory pool at 0x4c000000, size 8 MiB
+[    0.000000] OF: reserved mem: initialized node vram@4c000000, compatible id shared-dma-pool
+[    0.000000] cma: Reserved 16 MiB at 0x6f000000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000060000000-0x000000006fffffff]
+[    0.000000]   Normal   empty
+[    0.000000]   HighMem  empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000060000000-0x000000006fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000060000000-0x000000006fffffff]
+[    0.000000] CPU: All CPU(s) started in SVC mode.
+[    0.000000] percpu: Embedded 18 pages/cpu s44756 r8192 d20780 u73728
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 64960
+[    0.000000] Kernel command line: console=ttyAMA0 rdinit=/sbin/init
+[    0.000000] Dentry cache hash table entries: 32768 (order: 5, 131072 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 16384 (order: 4, 65536 bytes, linear)
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+[    0.000000] Memory: 221940K/262144K available (11264K kernel code, 1699K rwdata, 3732K rodata, 2048K init, 373K bss, 23820K reserved, 16384K cma-reserved, 0K highmem)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] ftrace: allocating 39753 entries in 117 pages
+[    0.000000] ftrace: allocated 117 pages with 5 groups
+[    0.000000] trace event string verifier disabled
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+[    0.000000] 	Rude variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+[    0.000000] GIC CPU mask not found - kernel will fail to boot.
+[    0.000000] GIC CPU mask not found - kernel will fail to boot.
+[    0.000000] L2C: platform modifies aux control register: 0x02020000 -> 0x02420000
+[    0.000000] L2C: DT/platform modifies aux control register: 0x02020000 -> 0x02420000
+[    0.000000] L2C-310 erratum 769419 enabled
+[    0.000000] L2C-310 enabling early BRESP for Cortex-A9
+[    0.000000] L2C-310 full line of zeros enabled for Cortex-A9
+[    0.000000] L2C-310 dynamic clock gating disabled, standby mode disabled
+[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB
+[    0.000000] L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x46420001
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000460] sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+[    0.008447] clocksource: arm,sp804: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
+[    0.011089] smp_twd: clock not found -2
+[    0.024812] Console: colour dummy device 80x30
+[    0.026000] Calibrating local timer... 100.02MHz.
+[    0.049562] Calibrating delay loop... 1413.12 BogoMIPS (lpj=2826240)
+[    0.122828] CPU: Testing write buffer coherency: ok
+[    0.125582] CPU0: Spectre v2: using BPIALL workaround
+[    0.125863] pid_max: default: 32768 minimum: 301
+[    0.128164] LSM: Security Framework initializing
+[    0.130008] landlock: Up and running.
+[    0.130057] Yama: disabled by default; enable with sysctl kernel.yama.*
+[    0.135745] AppArmor: AppArmor initialized
+[    0.135916] TOMOYO Linux initialized
+[    0.137381] LSM support for eBPF active
+[    0.140883] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+[    0.141006] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+[    0.188913] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+[    0.201830] cblist_init_generic: Setting adjustable number of callback queues.
+[    0.201990] cblist_init_generic: Setting shift to 2 and lim to 1.
+[    0.202784] cblist_init_generic: Setting adjustable number of callback queues.
+[    0.202809] cblist_init_generic: Setting shift to 2 and lim to 1.
+[    0.205435] Setting up static identity map for 0x60300000 - 0x603000ac
+[    0.209233] rcu: Hierarchical SRCU implementation.
+[    0.209349] rcu: 	Max phase no-delay instances is 1000.
+[    0.219302] EFI services will not be available.
+[    0.226186] smp: Bringing up secondary CPUs ...
+[    0.247757] smp: Brought up 1 node, 1 CPU
+[    0.247929] SMP: Total of 1 processors activated (1413.12 BogoMIPS).
+[    0.248097] CPU: All CPU(s) started in SVC mode.
+[    0.266017] devtmpfs: initialized
+[    0.277114] VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 0
+[    0.301914] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.303020] futex hash table entries: 1024 (order: 4, 65536 bytes, linear)
+[    0.318381] pinctrl core: initialized pinctrl subsystem
+[    0.334164] DMI not present or invalid.
+[    0.349952] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.384159] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.386293] audit: initializing netlink subsys (disabled)
+[    0.405690] audit: type=2000 audit(0.388:1): state=initialized audit_enabled=0 res=1
+[    0.412758] thermal_sys: Registered thermal governor 'fair_share'
+[    0.412826] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.412841] thermal_sys: Registered thermal governor 'step_wise'
+[    0.412849] thermal_sys: Registered thermal governor 'user_space'
+[    0.412858] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.413708] No ATAGs?
+[    0.413837] hw-breakpoint: debug architecture 0x4 unsupported.
+[    0.417801] Serial: AMBA PL011 UART driver
+[    0.435409] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000
+[    0.435781] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39
+[    0.437158] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000
+[    0.437249] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39
+[    0.440350] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000
+[    0.440644] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39
+[    0.446153] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000
+[    0.447307] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000
+[    0.448256] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/clcd@1f000: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39
+[    0.450546] /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39: Fixed dependency cycle(s) with /clcd@10020000
+[    0.450754] /clcd@10020000: Fixed dependency cycle(s) with /bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/dvi-transmitter@39
+[    0.479855] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    0.556004] iommu: Default domain type: Translated 
+[    0.556094] iommu: DMA domain TLB invalidation policy: strict mode 
+[    0.560946] pps_core: LinuxPPS API ver. 1 registered
+[    0.560985] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.561150] PTP clock support registered
+[    0.582377] NetLabel: Initializing
+[    0.582416] NetLabel:  domain hash size = 128
+[    0.582440] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.584082] NetLabel:  unlabeled traffic allowed by default
+[    0.595193] vgaarb: loaded
+[    0.607586] clocksource: Switched to clocksource arm,sp804
+[    0.773571] VFS: Disk quotas dquot_6.6.0
+[    0.773908] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    0.783067] AppArmor: AppArmor Filesystem Enabled
+[    0.814316] NET: Registered PF_INET protocol family
+[    0.816698] IP idents hash table entries: 4096 (order: 3, 32768 bytes, linear)
+[    0.834166] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.835139] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.835302] TCP established hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.835589] TCP bind hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    0.835812] TCP: Hash tables configured (established 2048 bind 2048)
+[    0.839349] MPTCP token hash table entries: 256 (order: 0, 4096 bytes, linear)
+[    0.840082] UDP hash table entries: 256 (order: 1, 8192 bytes, linear)
+[    0.840395] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes, linear)
+[    0.843563] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.844132] NET: Registered PF_XDP protocol family
+[    0.844425] PCI: CLS 0 bytes, default 64
+[    0.857542] Trying to unpack rootfs image as initramfs...
+[    0.867936] hw perfevents: enabled with armv7_cortex_a9 PMU driver, 7 counters available
+[    0.873119] Initialise system trusted keyrings
+[    0.879637] Key type blacklist registered
+[    0.883923] workingset: timestamp_bits=14 max_order=16 bucket_order=2
+[    0.903443] zbud: loaded
+[    0.923865] integrity: Platform Keyring initialized
+[    0.924446] integrity: Machine keyring initialized
+[    0.924528] Key type asymmetric registered
+[    0.924669] Asymmetric key parser 'x509' registered
+[    1.063431] Freeing initrd memory: 1388K
+[    1.287528] alg: self-tests for CTR-KDF (hmac(sha256)) passed
+[    1.288381] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 248)
+[    1.290262] io scheduler mq-deadline registered
+[    1.336688] Serial: 8250/16550 driver, 5 ports, IRQ sharing enabled
+[    1.351427] Serial: AMBA driver
+[    1.355546] STM32 USART driver initialized
+[    1.433212] simple-pm-bus bus@40000000:motherboard-bus@40000000:iofpga@7,00000000: Failed to create device link (0x180) with dcc:tcrefclk
+[    1.438655] simple-pm-bus bus@40000000:motherboard-bus@40000000:iofpga@7,00000000: Failed to create device link (0x180) with dcc:tcrefclk
+[    1.452003] mousedev: PS/2 mouse device common for all mice
+[    1.468994] rtc-pl031 10017000.rtc: registered as rtc0
+[    1.472591] rtc-pl031 10017000.rtc: setting system clock to 2026-05-31T08:36:17 UTC (1780216577)
+[    1.488245] ledtrig-cpu: registered to indicate activity on CPUs
+[    1.498919] NET: Registered PF_INET6 protocol family
+[    1.565083] Segment Routing with IPv6
+[    1.565527] In-situ OAM (IOAM) with IPv6
+[    1.566665] mip6: Mobile IPv6
+[    1.567412] NET: Registered PF_PACKET protocol family
+[    1.568286] mpls_gso: MPLS GSO support
+[    1.569144] ThumbEE CPU extension supported.
+[    1.569279] Registering SWP/SWPB emulation handler
+[    1.573367] registered taskstats version 1
+[    1.573742] Loading compiled-in X.509 certificates
+[    1.950086] Loaded X.509 cert 'Build time autogenerated kernel key: 4b6d7548823ffd68dbae0914aa57a1077b074dd8'
+[    1.968416] zswap: loaded using pool lzo/zbud
+[    1.972394] Key type .fscrypt registered
+[    1.972432] Key type fscrypt-provisioning registered
+[    2.008367] Key type encrypted registered
+[    2.008517] AppArmor: AppArmor sha1 policy hashing enabled
+[    2.009499] ima: No TPM chip found, activating TPM-bypass!
+[    2.009637] ima: Allocated hash algorithm: sha256
+[    2.013305] ima: No architecture policies found
+[    2.014166] evm: Initialising EVM extended attributes:
+[    2.014199] evm: security.selinux
+[    2.014241] evm: security.SMACK64 (disabled)
+[    2.014250] evm: security.SMACK64EXEC (disabled)
+[    2.014257] evm: security.SMACK64TRANSMUTE (disabled)
+[    2.014264] evm: security.SMACK64MMAP (disabled)
+[    2.014271] evm: security.apparmor
+[    2.014277] evm: security.ima
+[    2.014284] evm: security.capability
+[    2.014303] evm: HMAC attrs: 0x1
+[    3.655537] 10009000.uart: ttyAMA0 at MMIO 0x10009000 (irq = 31, base_baud = 0) is a PL011 rev1
+[    3.695729] printk: console [ttyAMA0] enabled
+[    3.700037] 1000a000.uart: ttyAMA1 at MMIO 0x1000a000 (irq = 32, base_baud = 0) is a PL011 rev1
+[    3.701382] 1000b000.uart: ttyAMA2 at MMIO 0x1000b000 (irq = 33, base_baud = 0) is a PL011 rev1
+[    3.702763] 1000c000.uart: ttyAMA3 at MMIO 0x1000c000 (irq = 34, base_baud = 0) is a PL011 rev1
+[    3.704405] clcd-pl11x 1001f000.clcd: PL111 designer 41 rev2 at 0x1001f000
+[    3.705537] clcd-pl11x: probe of 1001f000.clcd failed with error -2
+[    3.706228] clcd-pl11x 10020000.clcd: PL111 designer 41 rev2 at 0x10020000
+[    3.706723] clcd-pl11x: probe of 10020000.clcd failed with error -2
+[    3.709949] clk: Disabling unused clocks
+[    3.713903] uart-pl011 10009000.uart: no DMA platform data
+[    3.780857] Freeing unused kernel image (initmem) memory: 2048K
+[    3.786179] Checked W+X mappings: passed, no W+X pages found
+[    3.786718] Run /sbin/init as init process
+[    3.787840] Not activating Mandatory Access Control as /sbin/tomoyo-init does not exist.
+Minimal Linux ARM - Gomulu Sistemler Projesi
+----------------------------------------------
+Sistem hazir.
+
+==========================================
+  PROJE TEST - ARM QEMU
+==========================================
+
+--- [1] Mimari Dogrulama ---
+Linux arm-embedded 6.1.0-49-armmp #1 SMP Debian 6.1.174-1 (2026-05-26) armv7l GNU/Linux
+
+--- [2] Asama 1: temperature_sensor (3 olcum) ---
+Sicaklik Sensoru Baslatildi
+----------------------------
+[08:36:20] Sicaklik: 26.55 °C
+[08:36:21] Sicaklik: 20.24 °C
+[08:36:22] Sicaklik: 31.09 °C
+[08:36:23] Sicaklik: 32.24 °C
+Terminated
+[temperature_sensor durduruldu]
+
+--- [3] Asama 4: ipc_demo_arm (fork + pipe) ---
+IPC Demo - fork() + pipe()
+---------------------------
+[Parent PID=99] Veri gonderiliyor...
+[Child  PID=100] Okuma bekleniyor...
+[Child  PID=100] Alindi: Olcum #1: 20.0 C
+[Child  PID=100] Alindi: Olcum #2: 23.0 C
+[Child  PID=100] Alindi: Olcum #3: 26.0 C
+[Child  PID=100] Alindi: Olcum #4: 29.0 C
+[Child  PID=100] Alindi: Olcum #5: 32.0 C
+[Child  PID=100] Pipe kapandi, cikiliyor.
+[Parent PID=99] Tamamlandi.
+
+--- [4] Asama 5: Device Tree Sensor Node ---
+i2c@16000 icerik:
+#address-cells      dvi-transmitter@39  reg
+#size-cells         dvi-transmitter@60  temp-sensor@48
+compatible          name
+
+temp-sensor@48/compatible:
+national,lm75 
+
+==========================================
+  TUM TESTLER TAMAMLANDI
+==========================================
+[   13.807669] amba 1000f000.wdt: deferred probe pending
+[   13.807888] amba 100e0000.memory-controller: deferred probe pending
+[   13.808022] amba 100e1000.memory-controller: deferred probe pending
+[   13.808149] amba 100e5000.watchdog: deferred probe pending
+[   14.195712] reboot: Power down

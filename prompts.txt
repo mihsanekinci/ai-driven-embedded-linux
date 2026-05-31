@@ -1,0 +1,257 @@
+prompt 1: claude a yazdırıldı. claude code a verildi. vs code eklentisi olarak geliştirilmeye başlandı.
+6 aşamalı bir Embedded Linux projesi üzerinde çalışıyorum:
+
+1. ARM için C uygulaması cross-compile etmek (arm-linux-gnueabihf-gcc)
+2. BusyBox tabanlı minimal RootFS oluşturmak
+3. QEMU ARM üzerinde Linux kernel boot etmek
+4. fork() ve pipe() ile IPC uygulaması geliştirmek
+5. Bir sensör için Device Tree node yazmak
+6. Character driver analizi yapmak
+
+Ortamım: Ubuntu, arm-linux-gnueabihf-gcc 15.2.0,
+QEMU 10.2.1, dtc 1.7.2 kurulu.
+Çalışma dizini: ~/donem_projesi
+
+Aşama 1 ile başlayalım.
+Her saniye sahte sıcaklık verisi üreten ve
+terminale yazdıran bir C uygulaması yaz.
+Ardından ARM için cross-compile komutunu ver.
+
+aşama 2 için devam edelim denildi. 
+
+
+
+aşama 3 te .md dosyası oluşturuldu. tüm pormptlar claude ai ile yazıldığı için bu readme dosyası da onunla beraber oluşturuldu.
+Claude Code Promptu — Aşama 3: QEMU Boot
+Görev: ARM Linux kernel indir ve QEMU ile initramfs boot et.
+
+## Ortam
+- Proje dizini: ~/gomulu_sistemler/ai-driven-embedded-linux
+- initramfs: qemu/initramfs.cpio.gz (mevcut, 1.6MB, BusyBox tabanlı ARM)
+- Cross-compiler: arm-linux-gnueabihf-gcc (32-bit ARM hard-float)
+- QEMU: qemu-system-arm (10.2.1)
+- Host: Ubuntu VM
+
+## Yapılacaklar
+
+### Adım 1 — Pre-built ARM Kernel İndir
+Kernel derleme saatlerce sürer. Debian/Ubuntu ARM paketinden 
+hazır zImage indir:
+
+  wget -P qemu/ \
+    https://github.com/...(uygun bir pre-built ARM zImage)
+
+Alternatif: Ubuntu'nun linux-image-armmp paketinden zImage çıkar:
+  apt-get download linux-image-armmp
+  dpkg-deb -x linux-image-armmp*.deb tmp_kernel/
+  cp tmp_kernel/boot/vmlinuz-* qemu/zImage
+
+Makine tipi: qemu-system-arm -M vexpress-a9
+Konsol: ttyAMA0
+DTB: vexpress-v2p-ca9.dtb (kernel paketi içinden al)
+
+### Adım 2 — QEMU Boot Script Yaz
+qemu/run_qemu.sh dosyasını oluştur:
+
+  #!/bin/bash
+  qemu-system-arm \
+    -M vexpress-a9 \
+    -kernel qemu/zImage \
+    -dtb qemu/vexpress-v2p-ca9.dtb \
+    -initrd qemu/initramfs.cpio.gz \
+    -append "console=ttyAMA0 rdinit=/sbin/init" \
+    -nographic \
+    -m 256
+
+chmod +x qemu/run_qemu.sh
+
+### Adım 3 — Boot Log Kaydet
+  timeout 30 ./qemu/run_qemu.sh | tee qemu/boot.log
+  
+Boot başarı kriteri: "Please press Enter to activate this console"
+veya BusyBox shell prompt görünmesi.
+
+### Adım 4 — Screenshot Klasörüne Kopyala
+Boot log'dan ilk 50 satırı screenshots/stage3_boot_log.txt olarak kaydet.
+
+## Önemli Notlar
+- apt proxy sorunu varsa: sudo apt -o Acquire::http::Proxy=false install [paket] -y
+- qemu-system-arm kurulu değilse önce kur
+- QEMU'dan çıkmak için: Ctrl+A, sonra X
+- rootfs.ext2 yerine initramfs kullandık (cpio formatı), 
+  bu yüzden -initrd flag'i kullanıyoruz, -drive değil
+- Kernel ve DTB aynı versiyondan olmalı (aynı paketten çıkarılmalı)
+
+## Beklenen Çıktı
+- qemu/zImage (ARM kernel)
+- qemu/vexpress-v2p-ca9.dtb
+- qemu/run_qemu.sh (çalıştırılabilir boot scripti)
+- qemu/boot.log (boot çıktısı)
+- screenshots/stage3_boot_log.txt
+
+Hata alırsan boot.log içeriğini göster, birlikte debug edelim.
+
+ara güncelleme promptu: 
+PROJECT_STATUS.md dosyasını güncelle.
+Aşama 3 tamamlandı olarak işaretle.
+Şu bilgileri ekle:
+- Tamamlanma tarihi
+- Oluşturulan dosyalar (zImage, vexpress-v2p-ca9.dtb, 
+  run_qemu.sh, boot.log)
+- Karşılaşılan hata: ENOEXEC (x86 BusyBox → ARM BusyBox ile çözüldü)
+- Boot başarı kanıtı: "Please press Enter to activate this console"
+Aşama 4 (IPC pipe/fork) için TODO ekle.
+
+
+aşama 4: 
+devam edelim. 
+
+
+aşama 5:
+Claude Code Promptu — Aşama 5: Device Tree
+Görev: vexpress-v2p-ca9.dtb dosyasını analiz et, 
+temperature-sensor node ekle, derle ve QEMU'da doğrula.
+
+## Ortam
+- Proje dizini: ~/gomulu_sistemler/ai-driven-embedded-linux
+- Mevcut DTB: qemu/vexpress-v2p-ca9.dtb
+- Araç: dtc (device-tree-compiler)
+- QEMU makinesi: vexpress-a9
+
+## Adım 1 — DTB'yi Tersine Çevir (Decompile)
+  dtc -I dtb -O dts -o dts/vexpress-original.dts \
+      qemu/vexpress-v2p-ca9.dtb
+
+Ardından dts/vexpress-original.dts dosyasını oku ve şunları tespit et:
+- Kaç tane node var? (cpu, memory, uart, i2c...)
+- i2c node'u var mı, varsa label'i ne? (&i2c0, &i2c1 gibi)
+- memory node adresi ve boyutu nedir?
+- Konsol için kullanılan uart node hangisi?
+
+## Adım 2 — Sensör Node'u Ekle
+dts/vexpress-modified.dts dosyasını oluştur.
+Original DTS'i kopyala, sonuna şu node'u uygun yere ekle:
+
+Eğer i2c node varsa, o node altına ekle:
+  &i2c0 {
+    status = "okay";
+    temperature_sensor: temp-sensor@48 {
+      compatible = "national,lm75";
+      reg = <0x48>;
+      status = "okay";
+    };
+  };
+
+Eğer i2c node yoksa, root altına platform device olarak ekle:
+  temp_sensor@10060000 {
+    compatible = "gomulu-sistemler,temperature-sensor";
+    reg = <0x10060000 0x1000>;
+    status = "okay";
+    label = "CPU Temperature Sensor";
+  };
+
+## Adım 3 — Yeni DTS'i Derle
+  dtc -I dts -O dtb -o dts/vexpress-modified.dtb \
+      dts/vexpress-modified.dts
+
+Hata varsa göster, düzelt.
+
+## Adım 4 — QEMU'da Yeni DTB ile Boot Et
+qemu/run_qemu.sh scriptini KOPYALA → qemu/run_qemu_stage5.sh
+Sadece -dtb parametresini değiştir:
+  -dtb dts/vexpress-modified.dtb
+
+Boot et ve /proc/device-tree/ altında node'un göründüğünü doğrula:
+  ls /proc/device-tree/
+  ls /proc/device-tree/temp-sensor@48/   (veya ilgili path)
+  cat /proc/device-tree/temp-sensor@48/compatible
+
+## Adım 5 — Doğrulama Çıktısını Kaydet
+  screenshots/stage5_dts.txt dosyasına şunları yaz:
+  - dtc decompile komutu ve çıktısı
+  - Eklenen node kodu
+  - dtc derleme komutu
+  - /proc/device-tree/ listesi
+  - compatible değerinin cat çıktısı
+
+## Adım 6 — PROJECT_STATUS.md Güncelle
+Aşama 5 tamamlandı olarak işaretle (5/6 aşama ✅)
+
+## Beklenen Çıktı Dosyaları
+- dts/vexpress-original.dts  (decompile edilmiş orijinal)
+- dts/vexpress-modified.dts  (sensör node eklenmiş)
+- dts/vexpress-modified.dtb  (derlenmiş)
+- qemu/run_qemu_stage5.sh    (yeni DTB ile boot scripti)
+- screenshots/stage5_dts.txt (doğrulama çıktısı)
+
+## Önemli Notlar
+- apt gerekirse: sudo apt -o Acquire::http::Proxy=false install [paket] -y
+- QEMU'dan çıkmak için: Ctrl+A, sonra X
+- /proc/device-tree sadece QEMU içinde görünür, host'ta değil
+- Node adını DTB'deki mevcut yapıya göre ayarla
+
+
+aşama 6: 
+Görev: Örnek bir Linux character driver yaz, analiz et 
+ve rapor için belgele.
+
+## Ortam
+- Proje dizini: ~/gomulu_sistemler/ai-driven-embedded-linux
+- Hedef: source_code/char_driver/ klasörü
+
+## Adım 1 — Driver Kaynak Kodunu Yaz
+source_code/char_driver/temp_driver.c dosyasını oluştur.
+
+Driver şu özelliklere sahip olmalı:
+- module_init / module_exit
+- struct file_operations içinde: open, read, write, release
+- open: "Driver açıldı" mesajını printk ile yaz
+- read: kullanıcıya sahte sıcaklık verisi döndür ("25.3 C\n")
+- write: kullanıcıdan gelen veriyi printk ile logla
+- release: "Driver kapatıldı" printk
+- Major number: alloc_chrdev_region ile dinamik al
+- class_create + device_create ile /dev/temp_sensor oluştur
+
+## Adım 2 — Makefile Yaz
+source_code/char_driver/Makefile:
+  obj-m += temp_driver.o
+  
+  all:
+    make -C /lib/modules/$(shell uname -r)/build \
+         M=$(PWD) modules
+  clean:
+    make -C /lib/modules/$(shell uname -r)/build \
+         M=$(PWD) clean
+
+NOT: Bu Makefile host için — QEMU'da derlemek için 
+farklı yaklaşım gerekir. Şimdilik kod analizi yeterli.
+
+## Adım 3 — Kod Analizi Belgesi Yaz
+source_code/char_driver/analysis.md dosyasını oluştur.
+Şu soruları yanıtlayan Türkçe analiz:
+
+1. file_operations struct'ı ne işe yarar?
+2. open/read/write/release fonksiyonları ne zaman çağrılır?
+3. alloc_chrdev_region vs register_chrdev farkı nedir?
+4. printk neden printf değil?
+5. module_init ve module_exit makroları ne yapar?
+6. Major/minor number nedir, /dev/temp_sensor nasıl oluşur?
+
+## Adım 4 — Akış Diyagramı (ASCII)
+analysis.md içine şu akışı ASCII diyagram olarak ekle:
+  insmod → module_init() → cdev_add() → /dev/temp_sensor oluşur
+  open() → file_operations.open → printk
+  read() → file_operations.read → kullanıcıya veri
+  write() → file_operations.write → kernel log
+  rmmod → module_exit() → device_destroy → cdev_del
+
+## Adım 5 — PROJECT_STATUS.md Güncelle
+Aşama 6 tamamlandı (6/6 ✅)
+Tüm aşamalar tamamlandı notunu ekle.
+
+## Beklenen Çıktı
+- source_code/char_driver/temp_driver.c
+- source_code/char_driver/Makefile  
+- source_code/char_driver/analysis.md
+- screenshots/stage6_driver_analysis.txt 
+  (analysis.md özeti + kod satır açıklamaları)
