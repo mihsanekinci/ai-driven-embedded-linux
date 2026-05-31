@@ -1,0 +1,15 @@
+#!/bin/sh
+
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t tmpfs none /tmp
+mount -t tmpfs none /run
+
+echo "Minimal Linux ARM - Gomulu Sistemler Projesi"
+echo "----------------------------------------------"
+
+hostname arm-embedded
+
+ifconfig lo 127.0.0.1 up 2>/dev/null
+
+echo "Sistem hazir."

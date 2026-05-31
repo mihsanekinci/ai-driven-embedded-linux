@@ -1,0 +1,9 @@
+# Derleme dosyaları
+busybox-build/
+*.o
+*.a
+*.tar.bz2
+
+# Geçici dosyalar
+*.log
+*.tmp
