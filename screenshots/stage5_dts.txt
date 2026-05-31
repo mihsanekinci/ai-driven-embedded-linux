@@ -1,0 +1,54 @@
+== Asama 5 — Device Tree Dogrulama ==
+Tarih: 31 Mayis 2026
+Makine: qemu-system-arm -M vexpress-a9
+
+== Adim 1: DTB Decompile ==
+Komut:
+  dtc -I dtb -O dts -o dts/vexpress-original.dts qemu/vexpress-v2p-ca9.dtb
+
+Sonuc: 723 satir DTS olusturuldu.
+
+DTS Yapisi Analizi:
+  - Model       : V2P-CA9
+  - CPU         : 4x ARM Cortex-A9 (cpu@0 - cpu@3)
+  - Memory      : memory@60000000, boyut=0x40000000 (1GB)
+  - UART (konsol): uart@9000 (ttyAMA0)
+  - i2c0 alias  : iofpga@7,00000000/i2c@16000 (arm,versatile-i2c)
+  - i2c1 alias  : iofpga@7,00000000/i2c@2000
+
+== Adim 2: Eklenen Sensor Node (dts/vexpress-modified.dts) ==
+Konum: bus@40000000 / motherboard-bus@40000000 / iofpga@7,00000000 / i2c@16000
+
+  temperature_sensor: temp-sensor@48 {
+      compatible = "national,lm75";
+      reg = <0x48>;
+      status = "okay";
+      label = "CPU Temperature Sensor";
+  };
+
+== Adim 3: Derleme ==
+Komut:
+  dtc -I dts -O dtb -o dts/vexpress-modified.dtb dts/vexpress-modified.dts
+
+Sonuc: Basarili (exit 0), 14KB DTB olusturuldu.
+
+== Adim 4: QEMU Boot ve /proc/device-tree Dogrulama ==
+Komut:
+  qemu-system-arm -M vexpress-a9 \
+    -kernel qemu/zImage \
+    -dtb dts/vexpress-modified.dtb \
+    -initrd qemu/initramfs_stage5.cpio.gz \
+    -append "console=ttyAMA0 rdinit=/init_stage5.sh" \
+    -serial stdio -display none -m 256
+
+--- /proc/device-tree/bus@40000000/motherboard-bus@40000000/iofpga@7,00000000/i2c@16000/ ---
+#address-cells      dvi-transmitter@39  reg
+#size-cells         dvi-transmitter@60  temp-sensor@48
+compatible          name
+
+--- temp-sensor@48 compatible degeri ---
+national,lm75
+
+== SONUC ==
+BASARILI: temp-sensor@48 node /proc/device-tree icerisinde goruldu.
+compatible = "national,lm75" dogrulandi.

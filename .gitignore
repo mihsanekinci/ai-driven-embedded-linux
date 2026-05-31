@@ -9,3 +9,4 @@ busybox-build/
 *.tmp
 qemu/rootfs.ext2
 qemu/initramfs_stage4.cpio.gz
+qemu/initramfs_stage5.cpio.gz

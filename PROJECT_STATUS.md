@@ -18,7 +18,7 @@
 | 2 | BusyBox RootFS | 10 | ✅ |
 | 3 | QEMU boot | 10 | ✅ |
 | 4 | IPC pipe/fork | 10 | ✅ |
-| 5 | Device Tree düzenleme | 10 | ⏳ |
+| 5 | Device Tree düzenleme | 10 | ✅ |
 | 6 | Character driver analizi | 10 | ⏳ |
 | - | Teknik Rapor | 10 | ⏳ |
 
@@ -87,9 +87,38 @@ IPC Demo - fork() + pipe()
 [Parent PID=1] Tamamlandi.
 ```
 
-### ⏳ Aşama 5 — Device Tree
-- Henüz başlanmadı
-- Sensör node yazılacak
+### ✅ Aşama 5 — Device Tree
+**Tamamlanma:** 31 Mayıs 2026
+
+**Yapılan işlemler:**
+- `vexpress-v2p-ca9.dtb` → `dtc -I dtb -O dts` ile decompile edildi (723 satır)
+- DTS analizi: 4x Cortex-A9, memory@60000000 (1GB), uart@9000 (ttyAMA0), i2c@16000
+
+**Eklenen node (`dts/vexpress-modified.dts`):**
+```dts
+temperature_sensor: temp-sensor@48 {
+    compatible = "national,lm75";
+    reg = <0x48>;
+    status = "okay";
+    label = "CPU Temperature Sensor";
+};
+```
+Konum: `i2c@16000` altına (iofpga@7,00000000 içinde)
+
+**QEMU doğrulaması:**
+```
+/proc/device-tree/.../i2c@16000/ içeriği:
+  dvi-transmitter@39  dvi-transmitter@60  temp-sensor@48
+
+cat .../temp-sensor@48/compatible → national,lm75
+```
+
+**Oluşturulan dosyalar:**
+- `dts/vexpress-original.dts` — decompile edilmiş orijinal
+- `dts/vexpress-modified.dts` — sensör node eklenmiş
+- `dts/vexpress-modified.dtb` — derlenmiş (14KB)
+- `qemu/run_qemu_stage5.sh` — yeni DTB ile boot scripti
+- `screenshots/stage5_dts.txt` — doğrulama çıktısı
 
 ### ⏳ Aşama 6 — Character Driver
 - Henüz başlanmadı
