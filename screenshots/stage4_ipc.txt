@@ -1,0 +1,16 @@
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 6.1.0-49-armmp (debian-kernel@lists.debian.org) (gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Debian 6.1.174-1 (2026-05-26)
+[    0.000000] CPU: ARMv7 Processor [410fc090] revision 0 (ARMv7), cr=10c5387d
+...
+IPC Demo - fork() + pipe()
+---------------------------
+[Parent PID=1] Veri gonderiliyor...
+[Child  PID=87] Okuma bekleniyor...
+[Child  PID=87] Alindi: Olcum #1: 20.0 C
+[Child  PID=87] Alindi: Olcum #2: 23.0 C
+[Child  PID=87] Alindi: Olcum #3: 26.0 C
+[Child  PID=87] Alindi: Olcum #4: 29.0 C
+[Child  PID=87] Alindi: Olcum #5: 32.0 C
+[Child  PID=87] Pipe kapandi, cikiliyor.
+[Parent PID=1] Tamamlandi.
+[    9.404157] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000000 ]---

@@ -8,3 +8,4 @@ busybox-build/
 *.log
 *.tmp
 qemu/rootfs.ext2
+qemu/initramfs_stage4.cpio.gz
