@@ -1,0 +1,62 @@
+== Asama 6 — Character Driver Analizi ==
+Tarih: 31 Mayis 2026
+Dosya: source_code/char_driver/temp_driver.c
+
+== Kod Yapisi ==
+  Satir  1-7  : Kernel header'lari (module.h, fs.h, cdev.h, uaccess.h)
+  Satir  8-10 : MODULE_LICENSE / AUTHOR / DESCRIPTION makrolari
+  Satir 12-16 : Sabitler ve global degiskenler (dev_num, cdev, class, device)
+  Satir 21-25 : temp_open()    — kullanici open() cagrdiginda calisir
+  Satir 27-43 : temp_read()    — "25.3 C\n" verisini copy_to_user ile iletir
+  Satir 46-57 : temp_write()   — kullanicidan copy_from_user ile veri alir
+  Satir 59-63 : temp_release() — kullanici close() cagrdiginda calisir
+  Satir 65-71 : file_operations struct — sistem cagrisi yonlendirme tablosu
+  Satir 73-103: temp_driver_init() — alloc_chrdev_region, cdev_add,
+                                      class_create, device_create
+  Satir 105-112: temp_driver_exit() — temizlik: device/class/cdev/chrdev silinir
+  Satir 113-114: module_init / module_exit kayitlari
+
+== Temel Kavramlar ==
+
+[file_operations]
+  Cekirdek ile kullanici alani arasindaki kopru.
+  open/read/write/release fonksiyon isaretcilerini barindirir.
+  Kullanici read(fd,...) yazdigi an cekirdek temp_fops.read'i cagirir.
+
+[alloc_chrdev_region]
+  Dinamik major numarasi atar — sabit numara secmek yerine cekirdege birakir.
+  Cakisma riski yoktur. MAJOR() / MINOR() makrolariyla parcalanir.
+
+[copy_to_user / copy_from_user]
+  Cekirdek <-> kullanici bellek kopyalama. Dogrudan isaretci kullanilamaz;
+  bu fonksiyonlar adres dogrulama ve hata yonetimi yapar.
+
+[printk]
+  Cekirdek log mekanizmasi. printf degil; libc kullanilmaz.
+  KERN_INFO / KERN_ERR onekleriyle log seviyesi belirlenir.
+  Cikti: dmesg veya /dev/kmsg
+
+[class_create + device_create]
+  /sys/class/temp/ olusturur. udev/mdev bu sinifi izler ve
+  /dev/temp_sensor dosyasini otomatik yaratir.
+
+== Akis Ozeti ==
+  insmod  → module_init → alloc_chrdev_region → cdev_add
+          → class_create → device_create → /dev/temp_sensor hazir
+
+  open()  → temp_open    → printk("acildi")
+  read()  → temp_read    → copy_to_user("25.3 C\n")
+  write() → temp_write   → copy_from_user → printk(log)
+  close() → temp_release → printk("kapatildi")
+
+  rmmod   → module_exit → device_destroy → class_destroy
+          → cdev_del → unregister_chrdev_region
+
+== Derleme (host, ARM degil) ==
+  cd source_code/char_driver/
+  make        # temp_driver.ko olusur
+  sudo insmod temp_driver.ko
+  dmesg | tail
+  echo "test" > /dev/temp_sensor
+  cat /dev/temp_sensor
+  sudo rmmod temp_driver
